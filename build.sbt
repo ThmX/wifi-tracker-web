@@ -10,6 +10,11 @@ libraryDependencies ++= Seq(
   jdbc,
   cache,
   ws,
+  "com.google.code.gson" % "gson" % "2.3.1",
+  "com.typesafe.play" %% "anorm" % "2.4.0"
+)
+
+libraryDependencies ++= Seq(
   specs2 % Test
 )
 

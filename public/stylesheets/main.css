@@ -1,0 +1,137 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,600,700,300,800);
+
+html {
+    background: #fff;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 22px;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+#body-content {
+    padding-top: 20px;
+}
+
+#map {
+    background-image: url("../images/technopark_0.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+#map_strength {
+    opacity: 0.5;
+}
+
+
+
+
+
+
+/*
+ * Bootstrap # Navbar
+ */
+
+#navbar-title {
+    padding-left: 30px;
+    padding-top: 10px;
+    color: #EFEFEF;
+}
+
+#navbar-tracker.navbar {
+    margin-bottom: 0;
+    background: #151515;
+    padding: 15px 0;
+    padding-bottom: 0px;
+}
+
+#navbar-tracker .navbar-brand {
+    padding-top: 0;
+    padding-left: 15px;
+    margin: 0px;
+}
+
+#navbar-tracker .navbar-brand-img {
+    height: 40px;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav > li > a {
+    padding: 5px 12px;
+    margin-left: 5px;
+    border-radius: 3px;
+    color: #fff;
+    line-height: 24px;
+    display: inline-block;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav > li > a:hover{
+    background-color: #c52d2f;
+    color: #fff;
+}
+
+#navbar-tracker.navbar-inverse {
+    border: none;
+    border-radius: 0px;
+}
+
+#navbar-tracker.navbar-inverse .navbar-brand {
+    font-size: 36px;
+    line-height: 50px;
+    color: #fff;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav > .active > a,
+#navbar-tracker.navbar-inverse .navbar-nav > .active > a:hover,
+#navbar-tracker.navbar-inverse .navbar-nav > .active > a:focus,
+#navbar-tracker.navbar-inverse .navbar-nav > .open > a,
+#navbar-tracker.navbar-inverse .navbar-nav > .open > a:hover,
+#navbar-tracker.navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: #c52d2f;
+    color: #fff;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu {
+    background-color: rgba(0,0,0,.85);
+    -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+    -moz-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.125);
+    border: 0;
+    padding: 0;
+    margin-top: 0;
+    border-top: 0;
+    border-radius: 0;
+    left: 0;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu:before{
+    position: absolute;
+    top:0;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li > a {
+    padding: 8px 15px;
+    color: #fff;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li:hover > a,
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li:focus > a,
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li.active > a {
+    background-color: #c52d2f;
+    color: #fff;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li:last-child > a {
+    border-radius: 0 0 3px 3px;
+}
+
+#navbar-tracker.navbar-inverse .navbar-nav .dropdown-menu > li.divider {
+    background-color: transparent;
+}
+
+#navbar-tracker.navbar-inverse .navbar-collapse,
+#navbar-tracker.navbar-inverse .navbar-form {
+    border-top: 0;
+    padding-bottom: 0;
+}
