@@ -19,4 +19,10 @@
     <appender-ref ref="STDOUT" />
   </root>
 
+  <!-- Set logging for all Akka library classes to INFO -->
+  <logger name="akka" level="INFO" />
+  <!-- Set a specific actor to DEBUG -->
+  <logger name="actors" level="DEBUG" />
+
+
 </configuration>

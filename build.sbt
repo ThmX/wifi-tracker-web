@@ -11,11 +11,13 @@ libraryDependencies ++= Seq(
   cache,
   ws,
   "com.google.code.gson" % "gson" % "2.3.1",
-  "com.typesafe.play" %% "anorm" % "2.4.0"
+  "com.typesafe.play" %% "anorm" % "2.4.0",
+  "com.sksamuel.scrimage" % "scrimage-core_2.11" % "2.1.0"
 )
 
 libraryDependencies ++= Seq(
-  specs2 % Test
+  specs2 % Test,
+  "com.typesafe.akka" %% "akka-testkit" % "2.3.13" % "test"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"

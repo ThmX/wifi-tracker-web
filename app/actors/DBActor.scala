@@ -1,46 +1,71 @@
 package actors
 
-import akka.actor._
+import java.io.{FileReader, FileWriter, File}
+import scala.collection.convert.wrapAll
 
-import anorm._
-import play.api.db.DB
-import play.api.Play.current
+import akka.actor._
+import com.google.gson.Gson
 
 import models._
 
 object DBActor {
 
-  def props = Props[DBActor]
+  def props(db: File) = Props(classOf[DBActor], db)
 
-  case class Insert(obj: DBObject)
+  case class Import()
+  case class Export()
+
+  case class Inserted()
 
   case class GetCapture(ssid: String)
-  case class GetCaptureSpot(bssid: String)
-  case class GetMapPic(name: String)
+  case class GetHotspot(bssid: String)
+  case class GetLocation(location: String)
+  case class GetCaptureAndLocation(ssid: String, location: String)
 }
 
-class DBActor extends Actor {
+class DBActor(db: File) extends Actor with ActorLogging {
   import DBActor._
+
+  var captures = List[Capture]()
+
+  var locations = List[Location]()
 
   def receive = {
 
-    /*
-    obj match {
-      case Capture(id, ssid, spots) =>
-        SQL("select * from CAPTURE where ssid = {ssid}").on('ssid -> ssid)
+    case Import() =>
+      val gson = new Gson()
+      val Captures(c) = gson.fromJson(new FileReader(db), classOf[Captures])
+      captures = wrapAll.iterableAsScalaIterable(c).toList
+      log.info(captures.toString())
 
-      case CaptureSpot(id, bssid, timestamp, level) =>
-        SQL("select * from CAPTURE where bssid = {bssid}").on('bssid -> bssid)
+    case Export() =>
+      val gson = new Gson()
+      val writer = new FileWriter(db)
+      try {
+        gson.toJson(Captures(wrapAll.seqAsJavaList(captures)), writer)
+      } finally {
+        writer.close()
+      }
 
-      case MapPic(id, name, filename, orientation) =>
-        SQL("select * from CAPTURE where name = {name}").on('name -> name)
-    }
-     */
+    case GetCapture(ssid) =>
+      sender() ! captures.filter(_.ssid == ssid)
 
-    case Insert(obj) => DB.withConnection { implicit c =>
-      val result: Boolean = SQL("Select 1").execute()
-      sender() ! result
+    case GetHotspot(bssid) =>
 
-    }
+    case GetLocation(name) =>
+      sender() ! locations.filter(l => l.name == name)
+
+    case GetCaptureAndLocation(ssid, location) =>
+      sender() ! captures.filter(c => c.ssid == ssid && c.location == location)
+
+    case capture: Capture =>
+      log.info("Captured: " + capture.toString)
+      captures ::= capture
+      sender() ! Inserted()
+
+    case location: Location =>
+      locations ::= location
+      sender() ! Inserted()
+
   }
 }

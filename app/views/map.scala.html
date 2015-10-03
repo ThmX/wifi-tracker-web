@@ -3,8 +3,17 @@
 @main() {
 
     <div id="map" class="row">
-        <img id="map_strength" class="col-sm-12" src="assets/images/technopark_0_strength.png" />
+        <img id="map_strength" class="col-sm-12" src="/location/technopark_0" />
     </div>
 
+    <script>
+        //$("#map").css("background-image", "url('../images/technopark_0.png');");
+        $(document).ready( function() {
+            console.dir($("#map"));
+            $("#map").css("background-image", "url('@routes.Application.mapping("technopark_0", "hackzurich")')");
+            console.log("background!");
+            console.log($("#map").css("background-image"));
+        });
+    </script>
 
 }
