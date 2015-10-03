@@ -1,0 +1,22 @@
+# SBT
+/.sbtserver
+/RUNNING_PID
+*.swp
+/target/
+/project/project/
+/project/target/
+/project/.sbtserver*
+
+# Eclipse project
+/.cache
+/.classpath
+/.project
+/.settings/
+
+# IntelliJ IDEA project
+/.idea/
+/.idea_modules
+/*.iml
+
+# Play
+/logs/
