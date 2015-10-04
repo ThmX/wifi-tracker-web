@@ -1,4 +1,5 @@
-@(points: List[actors.ProcessActor.Point])(implicit flash: Flash)
+@import actors.ProcessActor.Point
+@(points: List[Point])(implicit flash: Flash)
 
 @main() {
 
@@ -8,23 +9,69 @@
     </div>
 
     <script>
-        var canvas = document.getElementById("canvas");
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#FF0000";
+
+    var hsv2rgb = function(h, s, v) {
+      // adapted from http://schinckel.net/2012/01/10/hsv-to-rgb-in-javascript/
+      var rgb, i, data = [];
+      if (s === 0) {
+        rgb = [v,v,v];
+      } else {
+        h = h / 60;
+        i = Math.floor(h);
+        data = [v*(1-s), v*(1-s*(h-i)), v*(1-s*(1-(h-i)))];
+        switch(i) {
+          case 0:
+            rgb = [v, data[2], data[0]];
+            break;
+          case 1:
+            rgb = [data[1], v, data[0]];
+            break;
+          case 2:
+            rgb = [data[0], v, data[2]];
+            break;
+          case 3:
+            rgb = [data[0], data[1], v];
+            break;
+          case 4:
+            rgb = [data[2], data[0], v];
+            break;
+          default:
+            rgb = [v, data[0], data[1]];
+            break;
+        }
+      }
+      return '#' + rgb.map(function(x){
+        return ("0" + Math.round(x*255).toString(16)).slice(-2);
+      }).join('');
+    };
 
         $(document).ready( function() {
             var w = $("#mapping").width();
             var h = $("#mapping").height();
 
+            var canvas = document.getElementById("canvas");
             canvas.width = w;
             canvas.height = h;
 
-            console.log(w);
-            console.log(h);
+            var ctx = canvas.getContext("2d");
+            var a = 40;
 
-            ctx.fillStyle = "red";
+            @for(Point(x, y, alpha) <- points) {
+            var x = w*@x;
+            var y = h*@y;
 
-            @for(p <- points){ctx.fillRect(w*@p.x-5, h*@p.y-5, 10, 10);
+            var val = 100 * (8 - @alpha) / 9;
+
+            var hue = Math.floor((100 - val) * 120 / 100);
+            var s = Math.abs(val - 50)/50;
+            var v = 1;
+
+            var grd = ctx.createRadialGradient(x,y,@alpha,x,y,5*@alpha);
+            //grd.addColorStop(0,"rgba(@((255 * (9 - alpha) / 9).toInt), @((255 * alpha / 9).toInt), 0, 0.5)");
+            grd.addColorStop(0,hsv2rgb(hue,s,v));
+            grd.addColorStop(1,"rgba(255, 255, 255, 0)");
+            ctx.fillStyle = grd;
+            ctx.fillRect(x-a, y-a, 2*a, 2*a);
             }
 
         });
