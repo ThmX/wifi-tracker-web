@@ -45,10 +45,6 @@ class Application @Inject() (system: ActorSystem) extends Controller {
     } yield Ok(views.html.map(points))
   }
 
-  def location(name: String) = Action {
-    serveFile(name + ".png", pwd)
-  }
-
   def config = Action { implicit request =>
     Ok("hackzurich")
   }

@@ -5,8 +5,6 @@
 # Home page
 GET         /                           controllers.Application.index
 
-GET         /location/:name             controllers.Application.location(name: String)
-
 # REST
 POST        /capture                    controllers.Application.capture
 GET         /config                     controllers.Application.config
