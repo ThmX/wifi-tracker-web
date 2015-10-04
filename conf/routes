@@ -3,15 +3,17 @@
 # ~~~~
 
 # Home page
-GET         /                           controllers.Application.index
+GET         /                    controllers.Application.index
+
+GET         /settings            controllers.Application.settings
 
 # REST
-POST        /capture                    controllers.Application.capture
-GET         /config                     controllers.Application.config
+POST        /capture             controllers.Application.capture
+GET         /config              controllers.Application.config
 
 # DB
-GET         /dbe                        controllers.Application.dbe
-GET         /dbi                        controllers.Application.dbi
+GET         /dbe                 controllers.Application.dbe
+GET         /dbi                 controllers.Application.dbi
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file        controllers.Assets.versioned(path="/public", file: Asset)

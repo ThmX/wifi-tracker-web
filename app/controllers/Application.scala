@@ -45,6 +45,10 @@ class Application @Inject() (system: ActorSystem) extends Controller {
     } yield Ok(views.html.map(points))
   }
 
+  def settings = Action {implicit request =>
+    Ok(views.html.settings())
+  }
+
   def config = Action { implicit request =>
     Ok("hackzurich")
   }
