@@ -38,22 +38,15 @@ class Application @Inject() (system: ActorSystem) extends Controller {
   val processActor = system.actorOf(ProcessActor.props(pwd), "process-actor")
   import ProcessActor._
 
-  def index = Action { implicit request =>
-    Ok(views.html.map())
+  def index = Action.async { implicit request =>
+    for {
+      captures <- (dbActor ? GetCaptureAndLocation("hackzurich", "technopark_0")).mapTo[List[Capture]]
+      points <- (processActor ? Process(captures)).mapTo[List[Point]]
+    } yield Ok(views.html.map(points))
   }
 
   def location(name: String) = Action {
     serveFile(name + ".png", pwd)
-  }
-
-  def mapping(loca: String, ssid: String) = Action.async {
-    for {
-      captures <- (dbActor ? GetCaptureAndLocation(ssid, loca)).mapTo[List[Capture]]
-      tfilename <- (processActor ? Process(loca, captures)).mapTo[Try[String]]
-    } yield tfilename match {
-      case Success(filename) => serveFile(filename, pwd)
-      case Failure(ex) => NotFound
-    }
   }
 
   def config = Action { implicit request =>
@@ -61,7 +54,6 @@ class Application @Inject() (system: ActorSystem) extends Controller {
   }
 
   def capture = Action { implicit request =>
-    Logger.info("Try to post")
     request.body.asText.flatMap(t => Some(fromJson(t, classOf[Capture]))) match {
       case Some(capture) =>
         dbActor ! capture
@@ -73,12 +65,12 @@ class Application @Inject() (system: ActorSystem) extends Controller {
 
   def dbe = Action { implicit request =>
     dbActor ! Export()
-    Ok(views.html.map())
+    Ok(views.html.map(List()))
   }
 
   def dbi = Action { implicit request =>
     dbActor ! Import()
-    Ok(views.html.map())
+    Ok(views.html.map(List()))
   }
 
   private def serveFile(name: String, pwd: File) = Ok.sendFile(new File(pwd, name)).withHeaders(

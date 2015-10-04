@@ -6,7 +6,6 @@
 GET         /                           controllers.Application.index
 
 GET         /location/:name             controllers.Application.location(name: String)
-GET         /mapping/:loca/:ssid        controllers.Application.mapping(loca: String, ssid: String)
 
 # REST
 POST        /capture                    controllers.Application.capture

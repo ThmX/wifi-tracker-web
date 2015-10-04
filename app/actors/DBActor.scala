@@ -26,13 +26,15 @@ object DBActor {
 class DBActor(db: File) extends Actor with ActorLogging {
   import DBActor._
 
+  self ! Import()
+
   var captures = List[Capture]()
 
   var locations = List[Location]()
 
   def receive = {
 
-    case Import() =>
+    case Import() if db.exists() =>
       val gson = new Gson()
       val Captures(c) = gson.fromJson(new FileReader(db), classOf[Captures])
       captures = wrapAll.iterableAsScalaIterable(c).toList
@@ -61,11 +63,9 @@ class DBActor(db: File) extends Actor with ActorLogging {
     case capture: Capture =>
       log.info("Captured: " + capture.toString)
       captures ::= capture
-      sender() ! Inserted()
 
     case location: Location =>
       locations ::= location
-      sender() ! Inserted()
 
   }
 }

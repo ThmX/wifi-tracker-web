@@ -1,19 +1,35 @@
-@()(implicit flash: Flash)
+@(points: List[actors.ProcessActor.Point])(implicit flash: Flash)
 
 @main() {
 
     <div id="map" class="row">
-        <img id="map_strength" class="col-sm-12" src="/location/technopark_0" />
+        <canvas id="canvas" class="col-xs-12" style="position: fixed; z-index: 9999; float: left;"></canvas>
+        <img id="mapping" class="col-xs-12" src="/location/technopark_0" />
     </div>
 
     <script>
-        //$("#map").css("background-image", "url('../images/technopark_0.png');");
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#FF0000";
+
         $(document).ready( function() {
-            console.dir($("#map"));
-            $("#map").css("background-image", "url('@routes.Application.mapping("technopark_0", "hackzurich")')");
-            console.log("background!");
-            console.log($("#map").css("background-image"));
+            var w = $("#mapping").width();
+            var h = $("#mapping").height();
+
+            canvas.width = w;
+            canvas.height = h;
+
+            console.log(w);
+            console.log(h);
+
+            ctx.fillStyle = "red";
+
+            @for(p <- points){ctx.fillRect(w*@p.x-5, h*@p.y-5, 10, 10);
+            }
+
         });
+
+
     </script>
 
 }
